@@ -1,0 +1,8 @@
+{
+  "prefix": "!",
+  "token": "my-token-goes-here",
+  "weeklyCompletedRole": "did the evermizer weekly",
+  "weeklyForfeitedRole": "forfeited the evermizer weekly",
+  "weeklyChannel": "weekly",
+  "weeklySpoilerChannel": "weekly_spoilers"
+}
