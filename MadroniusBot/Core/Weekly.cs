@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
 
 namespace MadroniusBot.Core
 {
@@ -61,7 +59,7 @@ namespace MadroniusBot.Core
             Timestamp = DateTime.MinValue
         };
 
-        public static Weekly NotSet => new Weekly
+        public static Weekly Blank => new Weekly
         {
             WeekNumber = RandomUtils.GetWeekNumber(),
             Leaderboard = null,

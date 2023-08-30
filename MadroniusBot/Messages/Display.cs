@@ -12,9 +12,6 @@ namespace MadroniusBot.Messages
     /// </summary>
     public static class Display
     {
-        const int kMinNumberOfElementsPerColumn = 4;
-        const int kMaxNumberOfColumns = 3;
-
         public const string kValidCommandEmoji = ":white_check_mark:";
         public const string kInvalidCommandEmoji = ":no_entry_sign:";
 
@@ -47,7 +44,7 @@ namespace MadroniusBot.Messages
             // To avoid giving away any ranking, avoid sorting the leaderboard when preventing spoilers.
             if (!preventSpoilers)
             {
-                leaderboard = leaderboard
+                leaderboard = leaderboard?
                     .OrderBy(kvp => kvp.Value);
             }
 
@@ -57,17 +54,28 @@ namespace MadroniusBot.Messages
 
             var rank = 0;
             var rankTreshold = TimeSpan.MinValue;
-            foreach (var entry in leaderboard)
-            {
-                if (entry.Value > rankTreshold)
-                {
-                    ++rank;
-                    rankTreshold = entry.Value;
-                }
-                rankStrings += $"{(rank <= 3 ? kRankingEmoijs[rank - 1] : CommandUtils.IntegerToOrdinal(rank))}\n";
 
-                userStrings += $"{entry.Key}\n";
-                timeStrings += $"{(entry.Value.Equals(TimeSpan.MaxValue) ? "DNF" : entry.Value.ToString())}\n";
+            if (leaderboard != null)
+            {
+                foreach (var entry in leaderboard)
+                {
+                    if (entry.Value > rankTreshold)
+                    {
+                        ++rank;
+                        rankTreshold = entry.Value;
+                    }
+
+                    rankStrings += $"{(rank <= 3 ? kRankingEmoijs[rank - 1] : CommandUtils.IntegerToOrdinal(rank))}\n";
+
+                    userStrings += $"{entry.Key}\n";
+                    timeStrings += $"{(entry.Value.Equals(TimeSpan.MaxValue) ? "DNF" : entry.Value.ToString())}\n";
+                }
+            }
+            else
+            {
+                rankStrings = "\u200B";
+                userStrings = "n/a";
+                timeStrings = "n/a";
             }
 
             if (preventSpoilers)

@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.NetworkInformation;
+using MadroniusBot.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace MadroniusBot
@@ -72,8 +74,22 @@ namespace MadroniusBot
                 c.Value.CommandErrored += CommandEvents.OnCommandErrored;
             }
 
+            var resetWeekly = new ResetWeeklyTask
+            {
+                Discord = discord,
+                Weekly = weekly,
+                Config = config,
+                Interval = TimeSpan.FromMilliseconds(1000.0)
+            };
+            var resetWeeklyTask = resetWeekly.StartAsync();
+             
             await discord.StartAsync();
+            
             await Task.Delay(-1);
+
+            resetWeekly.StopAsync();
+            await resetWeeklyTask;
+
         }
     }
 }
