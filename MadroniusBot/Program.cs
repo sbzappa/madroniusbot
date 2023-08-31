@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
@@ -67,14 +66,13 @@ namespace MadroniusBot
             commands.RegisterCommands<Commands.CompletedCommandModule>();
             commands.RegisterCommands<Commands.ForfeitCommandModule>();
             commands.RegisterCommands<Commands.LeaderboardCommandModule>();
-            //commands.RegisterCommands<Commands.ResetWeeklyCommandModule>();
 
             foreach(var c in commands) {
                 c.Value.CommandExecuted += CommandEvents.OnCommandExecuted;
                 c.Value.CommandErrored += CommandEvents.OnCommandErrored;
             }
 
-            var resetWeekly = new ResetWeeklyTask
+            var resetWeekly = new ResetWeekly
             {
                 Discord = discord,
                 Weekly = weekly,

@@ -44,7 +44,7 @@ namespace MadroniusBot.Commands
             Permissions.AccessChannels)]
         public async Task Execute(CommandContext ctx, int weekNumber = -1)
         {
-            var currentWeek = RandomUtils.GetWeekNumber();
+            var currentWeek = WeeklyUtils.GetWeekNumber();
             weekNumber = weekNumber == -1 ? currentWeek : weekNumber;
 
             var weekly = Weekly;

@@ -37,7 +37,7 @@ namespace MadroniusBot.Messages
             };
 
             embed
-                .AddField("Weekly Seed", $"Week #{weekly.WeekNumber}");
+                .AddField("Weekly Seed", $"Week {WeeklyUtils.GetWeekDescriptor(weekly.WeekNumber)} ({weekly.WeekNumber})");
 
             IEnumerable<KeyValuePair<string, TimeSpan>> leaderboard = weekly.Leaderboard;
 

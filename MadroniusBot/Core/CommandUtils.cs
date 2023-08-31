@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Text.RegularExpressions;
 using DSharpPlus.CommandsNext;
 using DSharpPlus;
@@ -12,24 +11,10 @@ using DSharpPlus.Entities;
 namespace MadroniusBot.Core
 {
     using Messages;
-    using IO;
 
     public static class CommandUtils
     {
         public const string kFriendlyMessage = "This shouldn't happen! Please contact your friendly neighbourhood developers!";
-
-        public const string kCustomRaceArgsDescription = "\n```" +
-                                                         "  --author string      Sets the author of the preset.\n" +
-                                                         "  --name string        Sets the name of the preset.\n" +
-                                                         "  --description string Sets the description of the preset.\n" +
-                                                         "```";
-
-        private enum AttachmentFileType
-        {
-            Invalid,
-            JsonPreset,
-            LogFile
-        };
 
         /// <summary>
         /// Check if the bot is in a direct message.
@@ -106,7 +91,7 @@ namespace MadroniusBot.Core
             return roles.Select(r => r.IsMentionable || hasPerms ? $"@({r.Name})" : r.Mention).ToArray();
         }
 
-        private static async Task<IEnumerable<DiscordRole>> ConvertRoleNamesToRoles(DiscordGuild guild, IEnumerable<string> roleStrings)
+        private static Task<IEnumerable<DiscordRole>> ConvertRoleNamesToRoles(DiscordGuild guild, IEnumerable<string> roleStrings)
         {
             var roles = guild.Roles.Values
                 .Where(role => roleStrings.Contains(role.Name));
@@ -117,7 +102,7 @@ namespace MadroniusBot.Core
                 throw new InvalidOperationException(errorMessage);
             }
 
-            return roles;
+            return Task.FromResult(roles);
         }
 
         private static async Task<IEnumerable<DiscordMember>> ConvertMemberNamesToMembers(DiscordGuild guild, IEnumerable<string> memberStrings)
@@ -375,99 +360,6 @@ namespace MadroniusBot.Core
                 return input.Substring(1, input.Length - 2);
 
             return input;
-        }
-
-        private static void ParseCustomRaceCommandLineArguments(string rawArgs, out string author, out string name, out string description)
-        {
-            bool inQuotes = false;
-
-            author = name = description = String.Empty;
-
-            if (rawArgs == null)
-                return;
-
-            var args = rawArgs.Split(c =>
-                {
-                    if (c == '\"')
-                        inQuotes = !inQuotes;
-
-                    return !inQuotes && c == ' ';
-                })
-                .Select(arg => arg.Trim().TrimMatchingQuotes('\"'))
-                .Where(arg => !string.IsNullOrEmpty(arg))
-                .ToArray();
-
-            var index = 0;
-            while (index + 1 < args.Length)
-            {
-                switch (args[index])
-                {
-                    case "--author":
-                        author = args[++index];
-                        break;
-                    case "--name":
-                        name = args[++index];
-                        break;
-                    case "--description":
-                        description = args[++index];
-                        break;
-                    default:
-                        throw new InvalidOperationException($"Unrecognized option '{args[index]}'");
-                }
-
-                ++index;
-            }
-
-            if (index < args.Length)
-            {
-                throw new InvalidOperationException($"Unrecognized option '{args[index]}'");
-            }
-        }
-
-        private static AttachmentFileType GetAttachmentFileType(CommandContext ctx, out string errorMessage)
-        {
-            if (ctx.Message.Attachments == null || ctx.Message.Attachments.Count != 1)
-            {
-                errorMessage = "No attachment provided. You must supply a file when using this command.";
-                return AttachmentFileType.Invalid;
-            }
-
-            var attachment = ctx.Message.Attachments[0];
-
-            // Json Preset
-            if (Path.GetExtension(attachment.FileName).ToLower() == ".json")
-            {
-                errorMessage = String.Empty;
-                return AttachmentFileType.JsonPreset;
-            }
-            // Log Txt File
-            else if (Path.GetExtension(attachment.FileName).ToLower() == ".txt")
-            {
-                var body = attachment.FileName.Remove(attachment.FileName.Length - 4);
-
-                // Should not be the spoiler log.
-                if (body.EndsWith("_SPOILER"))
-                {
-                    errorMessage = "Spoiler log file has been provided. Please, provide non-spoiler log instead.";
-                    return AttachmentFileType.Invalid;
-                }
-
-                var regex = new Regex("log_[A-F0-9]{16}");
-                var match = regex.Match(body);
-
-                // Should match the usual log file format.
-                if (match.Length != body.Length)
-                {
-                    errorMessage = "Spoiler log file name is not standard. Expecting a log_ prefix followed by a 16 digits hexadecimal seed.";
-                    return AttachmentFileType.Invalid;
-                }
-
-                errorMessage = String.Empty;
-                return AttachmentFileType.LogFile;
-            }
-
-            errorMessage = "Unrecognized file extension";
-            return AttachmentFileType.Invalid;
         }
 
         /// <summary>

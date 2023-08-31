@@ -9,20 +9,14 @@ using MadroniusBot.Messages;
 
 namespace MadroniusBot.Tasks
 {
-    public class ResetWeeklyTask
+    public class ResetWeekly
     {
-        //private Task _timerTask;
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
 
         public DiscordShardedClient Discord { get; set; }
         public Weekly Weekly { get; set; }
         public Config Config { get; set; }
         public TimeSpan Interval { get; set; }
-
-        //public void Start()
-        //{
-        //    _timerTask = DoWorkAsync();
-        //}
 
         public async Task StartAsync()
         {
@@ -31,10 +25,10 @@ namespace MadroniusBot.Tasks
                 while (!_cts.Token.IsCancellationRequested)
                 {
                     await TryResetWeekly();
-                    await Task.Delay(Interval, _cts.Token);
+                    await Task.Delay(WeeklyUtils.GetRemainingWeeklyDuration(Weekly.WeekNumber), _cts.Token);
                 }
             }
-            catch (OperationCanceledException _)
+            catch (OperationCanceledException)
             {
             }
             catch (Exception e)
@@ -52,7 +46,7 @@ namespace MadroniusBot.Tasks
                 .Select(kvp => kvp.Value);
             
             var previousWeek = Weekly.WeekNumber;
-            var currentWeek = RandomUtils.GetWeekNumber();
+            var currentWeek = WeeklyUtils.GetWeekNumber();
             var backupAndResetWeekly = previousWeek != currentWeek;
 
             // Make a backup of the previous week's weekly and create a new
@@ -87,14 +81,5 @@ namespace MadroniusBot.Tasks
             _cts.Cancel();
         }
         
-        //public async Task StopAsync()
-        //{
-        //    if (_timerTask is null)
-        //        return;
-        //    
-        //    _cts.Cancel();
-        //    await _timerTask;
-        //    _cts.Dispose();
-        //}
     }
 }

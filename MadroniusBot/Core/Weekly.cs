@@ -61,7 +61,7 @@ namespace MadroniusBot.Core
 
         public static Weekly Blank => new Weekly
         {
-            WeekNumber = RandomUtils.GetWeekNumber(),
+            WeekNumber = WeeklyUtils.GetWeekNumber(),
             Leaderboard = null,
             Timestamp = DateTime.Now
         };
