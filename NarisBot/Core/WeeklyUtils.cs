@@ -9,8 +9,8 @@ namespace NarisBot.Core
     public static class WeeklyUtils
     {
         static readonly DateTime s_FirstWeek = new DateTime(2023, 08, 25, 18, 0, 0, DateTimeKind.Utc);
-        //static readonly TimeSpan s_WeeklyDuration = TimeSpan.FromDays(7.0);
-        static readonly TimeSpan s_WeeklyDuration = TimeSpan.FromMinutes(5.0);
+        static readonly TimeSpan s_WeeklyDuration = TimeSpan.FromDays(7.0);
+        //static readonly TimeSpan s_WeeklyDuration = TimeSpan.FromMinutes(5.0);
 
         /// <summary>
         /// Retrieves the duration until next weekly reset.
