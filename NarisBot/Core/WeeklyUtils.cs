@@ -70,10 +70,8 @@ namespace NarisBot.Core
         {
             var dateTime = GetWeek(weekNumber);
 
-            var culture = CultureInfo.InvariantCulture;
-
             var year = dateTime.Year;
-            var weekNumberInCurrentYear = culture.Calendar.GetWeekOfYear(dateTime, CalendarWeekRule.FirstDay, DayOfWeek.Friday);
+            var weekNumberInCurrentYear = ISOWeek.GetWeekOfYear(dateTime);
 
             return $"{year}-{weekNumberInCurrentYear}";
         }
