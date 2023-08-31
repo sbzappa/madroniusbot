@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MadroniusBot.Core
+namespace NarisBot.Core
 {
     public interface IReadOnlyWeekly
     {

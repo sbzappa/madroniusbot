@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MadroniusBot", "MadroniusBot\MadroniusBot.csproj", "{A0B60261-D7CC-4C48-9FCE-3224B8E9844E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NarisBot", "NarisBot\NarisBot.csproj", "{A0B60261-D7CC-4C48-9FCE-3224B8E9844E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,4 @@
-# Madronius Bot
+# Naris Bot
 
 An Evermizer bot for Discord.
 
@@ -46,15 +46,15 @@ required for the bot to authenticate itself with Discord. Look for
 
 You can copy your `config.json` in either: 
 - `config/`
-- `$HOME/madroniusbot/config/`
+- `$HOME/narisbot/config/`
 
 ### Compilation and Running
 
 To compile the bot, run `dotnet build` in the project root.
 
-The executable will be located at `MadroniusBot/bin/Debug/netcoreapp3.1/MadroniusBot.dll`.
-A daemon script for Linux is provided at `linux/madroniusbotd`.
+The executable will be located at `NarisBot/bin/Debug/netcoreapp3.1/NarisBot.dll`.
+A daemon script for Linux is provided at `linux/narisbotd`.
 
 You can also build in release mode by running `dotnet build -c Release`.
-The executable will then be located at `MadroniusBot/bin/Release/netcoreapp3.1/MadroniusBot.dll`.
+The executable will then be located at `NarisBot/bin/Release/netcoreapp3.1/NarisBot.dll`.
 Note that the daemon assumes we have a fresh release build.

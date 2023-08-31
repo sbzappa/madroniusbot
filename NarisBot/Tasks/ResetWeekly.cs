@@ -3,11 +3,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DSharpPlus;
-using MadroniusBot.Core;
-using MadroniusBot.IO;
-using MadroniusBot.Messages;
+using NarisBot.Core;
+using NarisBot.IO;
+using NarisBot.Messages;
 
-namespace MadroniusBot.Tasks
+namespace NarisBot.Tasks
 {
     public class ResetWeekly
     {

@@ -6,7 +6,7 @@ using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.CommandsNext.Exceptions;
 using Microsoft.Extensions.Logging;
 
-namespace MadroniusBot.Core
+namespace NarisBot.Core
 {
     /// <summary>
     /// Events triggered by commands.

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using DSharpPlus;
 using DSharpPlus.Entities;
-using MadroniusBot.Core;
+using NarisBot.Core;
 
-namespace MadroniusBot.Messages
+namespace NarisBot.Messages
 {
     /// <summary>
     /// Display message to Discord.

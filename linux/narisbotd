@@ -1,12 +1,12 @@
 #! /bin/sh
 
 ### BEGIN INIT INFO
-# Provides:          madroniusbotd
+# Provides:          narisbotd
 # Required-Start:    $network $local_fs
 # Required-Stop:     $network $local_fs
 # Default-Start:     2 3 4 5
 # Default-Stop:
-# Short-Description: Start Madronius Bot
+# Short-Description: Start Naris Bot
 ### END INIT INFO
 
 # Init and get environment variables
@@ -14,21 +14,21 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 . /lib/lsb/init-functions
 
-[ -f /home/madronius/.env ] && . /home/madronius/.env
-[ -z "$PROJECT_PATH" ] && PROJECT_PATH=/home/madronius/madroniusbot
-[ -z "$PROJECT_BIN" ] && PROJECT_BIN=MadroniusBot/bin/Release/netcoreapp3.1/MadroniusBot.dll
-[ -z "$DOTNET_PATH" ] && DOTNET_PATH=/home/madronius/.dotnet
+[ -f /home/naris/.env ] && . /home/naris/.env
+[ -z "$PROJECT_PATH" ] && PROJECT_PATH=/home/naris/narisbot
+[ -z "$PROJECT_BIN" ] && PROJECT_BIN=NarisBot/bin/Release/netcoreapp3.1/NarisBot.dll
+[ -z "$DOTNET_PATH" ] && DOTNET_PATH=/home/naris/.dotnet
 
 set -e
 
 # Functions
 start() {
     cd "$PROJECT_PATH"
-    runuser -u madronius "$DOTNET_PATH/dotnet" "$PROJECT_BIN" >> /var/log/MadroniusBot.log &
+    runuser -u naris "$DOTNET_PATH/dotnet" "$PROJECT_BIN" >> /var/log/NarisBot.log &
 }
 
 stop() {
-    pkill -f "MadroniusBot"
+    pkill -f "NarisBot"
 }
 
 restart() {
@@ -41,17 +41,17 @@ restart() {
 # Carry out above functions when asked to by the system
 case "$1" in
   start)
-    log_daemon_msg "Starting Madronius Bot.."
+    log_daemon_msg "Starting Naris Bot.."
     start
     log_end_msg 0
     ;;
   stop)
-    log_daemon_msg "Stopping Madronius Bot.."
+    log_daemon_msg "Stopping Naris Bot.."
     stop
     log_end_msg 0
     ;;
   restart)
-    log_daemon_msg "Restarting Madronius Bot.."
+    log_daemon_msg "Restarting Naris Bot.."
     restart
     log_end_msg 0
     ;;

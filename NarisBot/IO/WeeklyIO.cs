@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace MadroniusBot.IO
+namespace NarisBot.IO
 {
     using Core;
 
@@ -14,7 +14,7 @@ namespace MadroniusBot.IO
     /// <seealso cref="Weekly"/>
     public class WeeklyIO
     {
-        private static readonly string k_WeeklyFolder = "$HOME/madroniusbot";
+        private static readonly string k_WeeklyFolder = "$HOME/narisbot";
 
         /// <summary>
         /// Writes the weekly settings to file.

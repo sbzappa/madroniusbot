@@ -4,10 +4,10 @@ using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.NetworkInformation;
-using MadroniusBot.Tasks;
 using Microsoft.Extensions.Logging;
+using NarisBot.Tasks;
 
-namespace MadroniusBot
+namespace NarisBot
 {
     using Core;
     using IO;

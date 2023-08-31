@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace MadroniusBot.Core
+namespace NarisBot.Core
 {
     /// <summary>
     /// Configuration of the bot.

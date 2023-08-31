@@ -8,7 +8,7 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus;
 using DSharpPlus.Entities;
 
-namespace MadroniusBot.Core
+namespace NarisBot.Core
 {
     using Messages;
 

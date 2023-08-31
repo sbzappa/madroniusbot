@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace MadroniusBot.IO
+namespace NarisBot.IO
 {
     using Core;
 
@@ -19,8 +19,8 @@ namespace MadroniusBot.IO
             "config",
             "../../../config",
             "../../../../config",
-            "$HOME/madroniusbot/config",
-            "$HOME/madroniusbot"
+            "$HOME/narisbot/config",
+            "$HOME/narisbot"
         };
 
         /// <summary>

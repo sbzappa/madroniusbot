@@ -5,7 +5,7 @@ using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 
-namespace MadroniusBot.Commands
+namespace NarisBot.Commands
 {
     using Core;
     using IO;

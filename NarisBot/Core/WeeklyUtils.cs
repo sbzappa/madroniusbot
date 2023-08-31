@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace MadroniusBot.Core
+namespace NarisBot.Core
 {
     /// <summary>
     /// Methods used to generate randomizer seeds.
