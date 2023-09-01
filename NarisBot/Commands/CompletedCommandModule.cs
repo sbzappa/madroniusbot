@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using DSharpPlus;
@@ -69,7 +70,7 @@ namespace NarisBot.Commands
             await CommandUtils.SendToChannelAsync(ctx, Config.WeeklySpoilerChannel, message);
 
             // Grant user their new role.
-            await CommandUtils.GrantRolesToSelfAsync(ctx, new [] {Config.WeeklyCompletedRole});
+            await CommandUtils.GrantRolesToSelfAsync(ctx, new[] {Config.WeeklyCompletedRole});
 
             // Display leaderboard in the spoiler channel.
             await CommandUtils.SendToChannelAsync(ctx, Config.WeeklySpoilerChannel, Display.LeaderboardEmbed(Weekly, false));

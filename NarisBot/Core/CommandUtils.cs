@@ -130,23 +130,12 @@ namespace NarisBot.Core
         /// <exception cref="InvalidOperationException">There are no matching roles.</exception>
         public static async Task GrantRolesToSelfAsync(CommandContext ctx, IEnumerable<string> roleStrings)
         {
-            var rolesTask = ConvertRoleNamesToRoles(ctx.Guild, roleStrings);
-            await GrantRolesAsync(new [] {ctx.Member}, await rolesTask);
-        }
-
-        /// <summary>
-        /// Grants roles to specified members.
-        /// </summary>
-        /// <param name="guild">Discord guild.</param>
-        /// <param name="memberStrings">Array of member names.</param>
-        /// <param name="roleStrings">Array of role names.</param>
-        /// <returns>Returns an asynchronous task.</returns>
-        /// <exception cref="InvalidOperationException">There are no matching roles or no matching members.</exception>
-        public static async Task GrantRolesAsync(DiscordGuild guild, IEnumerable<string> memberStrings, IEnumerable<string> roleStrings)
-        {
-            var rolesTask = ConvertRoleNamesToRoles(guild, roleStrings);
-            var membersTask = ConvertMemberNamesToMembers(guild, memberStrings);
-            await GrantRolesAsync(await membersTask, await rolesTask);
+            if (ctx.Guild.CurrentMember.Roles.Any(clientRole =>
+                    ctx.Member.Roles.All(memberRole => clientRole.Position > memberRole.Position)))
+            {
+                var rolesTask = ConvertRoleNamesToRoles(ctx.Guild, roleStrings);
+                await GrantRolesAsync(new[] {ctx.Member}, await rolesTask);
+            }
         }
 
         /// <summary>
@@ -155,7 +144,7 @@ namespace NarisBot.Core
         /// <param name="members">Array of members.</param>
         /// <param name="roles">Array of roles.</param>
         /// <returns>Returns an asynchronous task.</returns>
-        public static async Task GrantRolesAsync(IEnumerable<DiscordMember> members, IEnumerable<DiscordRole> roles)
+        static async Task GrantRolesAsync(IEnumerable<DiscordMember> members, IEnumerable<DiscordRole> roles)
         {
             var grantTasks = new List<Task>();
             foreach (var role in roles)
@@ -190,7 +179,9 @@ namespace NarisBot.Core
             var allMembers = await allMembersTask;
 
             var members = allMembers
-                .Where(member => member.Roles.Any(role => roles.Contains(role)));
+                .Where(member => member.Roles.Any(role => roles.Contains(role)))
+                .Where(member => member.Roles.All(role =>
+                    guild.CurrentMember.Roles.Any(clientRole => clientRole.Position < role.Position)));
 
             await RevokeRolesAsync(members, roles);
         }
