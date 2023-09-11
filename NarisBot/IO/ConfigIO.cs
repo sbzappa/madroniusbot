@@ -20,7 +20,8 @@ namespace NarisBot.IO
             "../../../config",
             "../../../../config",
             "$HOME/narisbot/config",
-            "$HOME/narisbot"
+            "$HOME/narisbot",
+            "$APP/../../../../config"
         };
 
         /// <summary>
@@ -35,9 +36,12 @@ namespace NarisBot.IO
                  Environment.OSVersion.Platform == PlatformID.MacOSX)
                     ? Environment.GetEnvironmentVariable("HOME")
                     : Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%");
+            var appFolder = AppDomain.CurrentDomain.BaseDirectory;
 
             var configPath = k_ConfigFolders
-                .Select(path => path.Replace("$HOME", homeFolder) + "/config.json")
+                .Select(path => path
+                    .Replace("$HOME", homeFolder)
+                    .Replace("$APP", appFolder) + "/config.json")
                 .FirstOrDefault(path => File.Exists(path));
 
             if (String.IsNullOrEmpty(configPath))
