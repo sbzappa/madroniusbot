@@ -44,16 +44,17 @@ namespace NarisBot.Commands
             Permissions.SendMessages |
             Permissions.AccessChannels)]
         public async Task Execute(CommandContext ctx, string weekDescriptor = "")
-        {            // Validate week descriptor
+        {
+            var currentWeekDescriptor = WeeklyUtils.GetWeekDescriptor();
+            weekDescriptor = String.IsNullOrEmpty(weekDescriptor) ? currentWeekDescriptor : weekDescriptor;
+
+            // Validate week descriptor
             if (!WeeklyUtils.IsValidWeekDescriptor(weekDescriptor))
             {
                 await ctx.RespondAsync($"Invalid week descriptor! Expecting week with a YYYY-WW format.\n");
                 await CommandUtils.SendFailReaction(ctx);
                 return;
             }
-
-            var currentWeekDescriptor = WeeklyUtils.GetWeekDescriptor();
-            weekDescriptor = String.IsNullOrEmpty(weekDescriptor) ? currentWeekDescriptor : weekDescriptor;
 
             var weekly = Weekly;
             if (weekDescriptor == currentWeekDescriptor)
