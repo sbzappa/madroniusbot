@@ -11,6 +11,7 @@ using DSharpPlus.Entities;
 namespace NarisBot.Core
 {
     using Messages;
+    using Microsoft.VisualBasic;
 
     public static class CommandUtils
     {
@@ -324,6 +325,25 @@ namespace NarisBot.Core
                 return false;
             }
 
+            return true;
+        }
+
+        /// <summary>
+        /// Converts a username to a user mention string if the user exists in the guild.
+        /// </summary>
+        /// <param name="guild">Discord guild</param>
+        /// <param name="username">Username</param>
+        /// <param name="mention">User mention</param>
+        /// <returns>True if user exists in guild, false otherwise.</returns>
+        public static bool UsernameToUserMention(DiscordGuild guild, string username, out string mention)
+        {
+            mention = String.Empty;
+
+            var member = guild.Members.FirstOrDefault(kvp => kvp.Value.Username.Equals(username)).Value;
+            if (member == null)
+                return false;
+
+            mention = member.Mention;
             return true;
         }
 

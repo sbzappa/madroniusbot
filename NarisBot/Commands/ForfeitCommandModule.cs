@@ -61,7 +61,7 @@ namespace NarisBot.Commands
             await CommandUtils.GrantRolesToSelfAsync(ctx, new [] {Config.WeeklyForfeitedRole});
 
             // Display leaderboard in the spoiler channel.
-            await CommandUtils.SendToChannelAsync(ctx, Config.WeeklySpoilerChannel, Display.LeaderboardEmbed(Weekly, false));
+            await CommandUtils.SendToChannelAsync(ctx, Config.WeeklySpoilerChannel, Display.LeaderboardEmbed(ctx.Guild, Weekly, false));
         }
     }
 }

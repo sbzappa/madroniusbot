@@ -16,7 +16,6 @@ namespace NarisBot.Tasks
         public DiscordShardedClient Discord { get; set; }
         public Weekly Weekly { get; set; }
         public Config Config { get; set; }
-        public TimeSpan Interval { get; set; }
 
         public async Task StartAsync()
         {
@@ -65,9 +64,9 @@ namespace NarisBot.Tasks
                 await CommandUtils.SendToChannelAsync(
                     guild,
                     Config.WeeklyChannel,
-                    Display.LeaderboardEmbed(Weekly, false));
+                    Display.LeaderboardEmbed(guild, Weekly, false));
             } 
-            
+ 
             // Backup weekly settings to json before overriding.
             await WeeklyIO.StoreWeeklyAsync(Weekly, $"weekly.{previousWeek}.json");
 

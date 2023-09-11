@@ -28,7 +28,7 @@ namespace NarisBot.Messages
         /// <param name="weekly">Weekly settings.</param>
         /// <param name="preventSpoilers">Hide potential spoilers.</param>
         /// <returns>Returns an embed builder.</returns>
-        public static DiscordEmbedBuilder LeaderboardEmbed(IReadOnlyWeekly weekly, bool preventSpoilers)
+        public static DiscordEmbedBuilder LeaderboardEmbed(DiscordGuild guild, IReadOnlyWeekly weekly, bool preventSpoilers)
         {
             var embed = new DiscordEmbedBuilder
             {
@@ -67,7 +67,11 @@ namespace NarisBot.Messages
 
                     rankStrings += $"{(rank <= 3 ? kRankingEmoijs[rank - 1] : CommandUtils.IntegerToOrdinal(rank))}\n";
 
-                    userStrings += $"{entry.Key}\n";
+                    if (CommandUtils.UsernameToUserMention(guild, entry.Key, out var userMention))
+                        userStrings += $"{userMention}\n";
+                    else
+                        userStrings += $"{entry.Key}\n";
+                    
                     timeStrings += $"{(entry.Value.Equals(TimeSpan.MaxValue) ? "DNF" : entry.Value.ToString())}\n";
                 }
             }
