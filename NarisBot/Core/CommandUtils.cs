@@ -262,7 +262,7 @@ namespace NarisBot.Core
 
         public static Task SendToChannelAsync(DiscordGuild guild, string channelName, string message) =>
             SendToChannelAsync(guild, channelName, new DiscordMessageBuilder().WithContent(message));
-        
+
         public static async Task SendToChannelAsync(DiscordGuild guild, string channelName, DiscordMessageBuilder messageBuilder)
         {
             var channel = guild.Channels
@@ -274,9 +274,9 @@ namespace NarisBot.Core
                 throw new InvalidOperationException(errorMessage);
             }
 
-            await channel.SendMessageAsync(messageBuilder); 
+            await channel.SendMessageAsync(messageBuilder);
         }
-        
+
         /// <summary>
         /// Verifies if current channel matches specified channel.
         /// </summary>

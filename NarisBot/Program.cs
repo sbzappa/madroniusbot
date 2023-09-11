@@ -79,9 +79,9 @@ namespace NarisBot
                 Config = config
             };
             var resetWeeklyTask = resetWeekly.StartAsync();
-             
+
             await discord.StartAsync();
-            
+
             await Task.Delay(-1);
 
             resetWeekly.StopAsync();

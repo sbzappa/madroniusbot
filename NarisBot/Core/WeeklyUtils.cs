@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace NarisBot.Core
 {
@@ -10,7 +11,7 @@ namespace NarisBot.Core
     {
         static readonly DateTime s_FirstWeek = new DateTime(2023, 08, 25, 18, 0, 0, DateTimeKind.Utc);
         static readonly TimeSpan s_WeeklyDuration = TimeSpan.FromDays(7.0);
-        //static readonly TimeSpan s_WeeklyDuration = TimeSpan.FromMinutes(5.0);
+        //static readonly TimeSpan s_WeeklyDuration = TimeSpan.FromMinutes(1.0);
 
         /// <summary>
         /// Retrieves the duration until next weekly reset.
@@ -27,7 +28,7 @@ namespace NarisBot.Core
 
             return s_WeeklyDuration - elapsed;
         }
-        
+
         /// <summary>
         /// Retrieves the current week number for weeklies.
         /// Week zero started on 2023-08-25.
@@ -61,15 +62,42 @@ namespace NarisBot.Core
         }
 
         /// <summary>
+        /// Tests whether a week descriptor is valid.
+        /// </summary>
+        /// <param name="weekDescriptor">Week descriptor. Must be in the YYYY-WW format.</param>
+        /// <returns>Returns true if the week descriptor is valid. False otherwise.</returns>
+        public static bool IsValidWeekDescriptor(string weekDescriptor)
+        {
+            var regex = new Regex("^(?<year>[0-9]{4})-(?<week>[0-9]{2})$");
+            return regex.IsMatch(weekDescriptor);
+        }
+
+        /// <summary>
         /// Gets nicely printed weekly descriptor for a
         /// specified week number.
         /// </summary>
         /// <param name="weekNumber">Week number.</param>
         /// <returns>Returns a week descriptor.</returns>
-        public static string GetWeekDescriptor(int weekNumber)
-        {
-            var dateTime = GetWeek(weekNumber);
+        public static string GetWeekDescriptor() =>
+            GetWeekDescriptor(GetWeekNumber());
 
+        /// <summary>
+        /// Gets nicely printed weekly descriptor for a
+        /// specified week number.
+        /// </summary>
+        /// <param name="weekNumber">Week number.</param>
+        /// <returns>Returns a week descriptor.</returns>
+        public static string GetWeekDescriptor(int weekNumber) =>
+            GetWeekDescriptor(GetWeek(weekNumber));
+
+        /// <summary>
+        /// Gets nicely printed weekly descriptor for a
+        /// specified date.
+        /// </summary>
+        /// <param name="weekNumber">Week number.</param>
+        /// <returns>Returns a week descriptor.</returns>
+        public static string GetWeekDescriptor(DateTime dateTime)
+        {
             var year = dateTime.Year;
             var weekNumberInCurrentYear = ISOWeek.GetWeekOfYear(dateTime);
 

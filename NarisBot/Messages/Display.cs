@@ -37,7 +37,7 @@ namespace NarisBot.Messages
             };
 
             embed
-                .AddField("Weekly Seed", $"Week {WeeklyUtils.GetWeekDescriptor(weekly.WeekNumber)} ({weekly.WeekNumber})");
+                .AddField("Weekly Seed", $"Week {WeeklyUtils.GetWeekDescriptor(weekly.WeekNumber)}");
 
             IEnumerable<KeyValuePair<string, TimeSpan>> leaderboard = weekly.Leaderboard;
 
@@ -71,7 +71,7 @@ namespace NarisBot.Messages
                         userStrings += $"{userMention}\n";
                     else
                         userStrings += $"{entry.Key}\n";
-                    
+
                     timeStrings += $"{(entry.Value.Equals(TimeSpan.MaxValue) ? "DNF" : entry.Value.ToString())}\n";
                 }
             }

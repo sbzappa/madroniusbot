@@ -43,7 +43,7 @@ namespace NarisBot.Tasks
                 .Select(kvp => kvp.Value)
                 .SelectMany(shard => shard.Guilds)
                 .Select(kvp => kvp.Value);
-            
+
             var previousWeek = Weekly.WeekNumber;
             var currentWeek = WeeklyUtils.GetWeekNumber();
             var backupAndResetWeekly = previousWeek != currentWeek;
@@ -52,7 +52,7 @@ namespace NarisBot.Tasks
             // weekly for the current week.
             if (!backupAndResetWeekly)
                 return;
-               
+
             foreach (var guild in guilds)
             {
                 await CommandUtils.RevokeAllRolesAsync(guild, new[]
@@ -60,15 +60,15 @@ namespace NarisBot.Tasks
                     Config.WeeklyCompletedRole,
                     Config.WeeklyForfeitedRole
                 });
-                
+
                 await CommandUtils.SendToChannelAsync(
                     guild,
                     Config.WeeklyChannel,
                     Display.LeaderboardEmbed(guild, Weekly, false));
-            } 
- 
+            }
+
             // Backup weekly settings to json before overriding.
-            await WeeklyIO.StoreWeeklyAsync(Weekly, $"weekly.{previousWeek}.json");
+            await WeeklyIO.StoreWeeklyAsync(Weekly, $"weekly.{WeeklyUtils.GetWeekDescriptor(previousWeek)}.json");
 
             // Set weekly to blank with a fresh leaderboard.
             Weekly.Load(Weekly.Blank);
@@ -79,6 +79,6 @@ namespace NarisBot.Tasks
         {
             _cts.Cancel();
         }
-        
+
     }
 }

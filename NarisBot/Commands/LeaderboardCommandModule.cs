@@ -7,6 +7,7 @@ using DSharpPlus.CommandsNext.Attributes;
 
 namespace NarisBot.Commands
 {
+    using System;
     using Core;
     using IO;
     using Messages;
@@ -32,7 +33,7 @@ namespace NarisBot.Commands
         /// Executes the leaderboard command.
         /// </summary>
         /// <param name="ctx">Command Context.</param>
-        /// <param name="weekNumber"></param>
+        /// <param name="weekDescriptor">Week descriptor. Expecting YYYY-WW format.</param>
         /// <returns>Returns an asynchronous task.</returns>
         [Command("leaderboard")]
         [Description("Get the weekly leaderboard.")]
@@ -42,30 +43,36 @@ namespace NarisBot.Commands
         [RequireBotPermissions(
             Permissions.SendMessages |
             Permissions.AccessChannels)]
-        public async Task Execute(CommandContext ctx, int weekNumber = -1)
-        {
-            var currentWeek = WeeklyUtils.GetWeekNumber();
-            weekNumber = weekNumber == -1 ? currentWeek : weekNumber;
-
-            var weekly = Weekly;
-            if (weekNumber != currentWeek)
+        public async Task Execute(CommandContext ctx, string weekDescriptor = "")
+        {            // Validate week descriptor
+            if (!WeeklyUtils.IsValidWeekDescriptor(weekDescriptor))
             {
-                weekly = await WeeklyIO.LoadWeeklyAsync($"weekly.{weekNumber}.json");
-            }
-
-            if (weekly.Leaderboard == null || weekly.Leaderboard.Count == 0)
-            {
-                await ctx.RespondAsync($"No leaderboard available for week {weekNumber}.");
+                await ctx.RespondAsync($"Invalid week descriptor! Expecting week with a YYYY-WW format.\n");
                 await CommandUtils.SendFailReaction(ctx);
                 return;
             }
 
-            if (weekNumber == currentWeek)
+            var currentWeekDescriptor = WeeklyUtils.GetWeekDescriptor();
+            weekDescriptor = String.IsNullOrEmpty(weekDescriptor) ? currentWeekDescriptor : weekDescriptor;
+
+            var weekly = Weekly;
+            if (weekDescriptor == currentWeekDescriptor)
             {
                 var success = await CommandUtils.ChannelExistsInGuild(ctx, Config.WeeklySpoilerChannel);
                 if (!success)
                 {
                     await ctx.RespondAsync("This week's leaderboard can only be displayed on the spoiler channel!");
+                    await CommandUtils.SendFailReaction(ctx);
+                    return;
+                }
+            }
+            else
+            {
+                weekly = await WeeklyIO.LoadWeeklyAsync($"weekly.{weekDescriptor}.json");
+
+                if (weekly.Leaderboard == null || weekly.Leaderboard.Count == 0)
+                {
+                    await ctx.RespondAsync($"No leaderboard available for week {weekDescriptor}.");
                     await CommandUtils.SendFailReaction(ctx);
                     return;
                 }
