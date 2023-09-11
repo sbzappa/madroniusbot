@@ -30,7 +30,7 @@ namespace NarisBot
             {
                 Token = config.Token,
                 TokenType = TokenType.Bot,
-                Intents = DiscordIntents.AllUnprivileged | DiscordIntents.GuildMembers
+                Intents = DiscordIntents.AllUnprivileged | DiscordIntents.GuildMembers | DiscordIntents.MessageContents
             });
 
             var weekly = await weeklyTask;
@@ -76,8 +76,7 @@ namespace NarisBot
             {
                 Discord = discord,
                 Weekly = weekly,
-                Config = config,
-                Interval = TimeSpan.FromMilliseconds(1000.0)
+                Config = config
             };
             var resetWeeklyTask = resetWeekly.StartAsync();
              
