@@ -181,7 +181,7 @@ namespace NarisBot.Core
             var members = allMembers
                 .Where(member => member.Roles.Any(role => roles.Contains(role)))
                 .Where(member => member.Roles.All(role =>
-                    guild.CurrentMember.Roles.Any(clientRole => clientRole.Position < role.Position)));
+                    guild.CurrentMember.Roles.Any(clientRole => clientRole.Position > role.Position)));
 
             await RevokeRolesAsync(members, roles);
         }
