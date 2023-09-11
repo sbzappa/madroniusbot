@@ -335,11 +335,11 @@ namespace NarisBot.Core
         /// <param name="username">Username</param>
         /// <param name="mention">User mention</param>
         /// <returns>True if user exists in guild, false otherwise.</returns>
-        public static bool UsernameToUserMention(DiscordGuild guild, string username, out string mention)
+        public static bool UsernameToUserMention(IEnumerable<DiscordMember> members, string username, out string mention)
         {
             mention = String.Empty;
 
-            var member = guild.Members.FirstOrDefault(kvp => kvp.Value.Username.Equals(username)).Value;
+            var member = members.FirstOrDefault(member => member.Username.Equals(username));
             if (member == null)
                 return false;
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DSharpPlus;
 using DSharpPlus.Entities;
 using NarisBot.Core;
@@ -28,7 +29,7 @@ namespace NarisBot.Messages
         /// <param name="weekly">Weekly settings.</param>
         /// <param name="preventSpoilers">Hide potential spoilers.</param>
         /// <returns>Returns an embed builder.</returns>
-        public static DiscordEmbedBuilder LeaderboardEmbed(DiscordGuild guild, IReadOnlyWeekly weekly, bool preventSpoilers)
+        public static async Task<DiscordEmbedBuilder> LeaderboardEmbedAsync(DiscordGuild guild, IReadOnlyWeekly weekly, bool preventSpoilers)
         {
             var embed = new DiscordEmbedBuilder
             {
@@ -57,6 +58,8 @@ namespace NarisBot.Messages
 
             if (leaderboard != null)
             {
+                var allMembers = await guild.GetAllMembersAsync();
+
                 foreach (var entry in leaderboard)
                 {
                     if (entry.Value > rankTreshold)
@@ -67,7 +70,7 @@ namespace NarisBot.Messages
 
                     rankStrings += $"{(rank <= 3 ? kRankingEmoijs[rank - 1] : CommandUtils.IntegerToOrdinal(rank))}\n";
 
-                    if (CommandUtils.UsernameToUserMention(guild, entry.Key, out var userMention))
+                    if (CommandUtils.UsernameToUserMention(allMembers, entry.Key, out var userMention))
                         userStrings += $"{userMention}\n";
                     else
                         userStrings += $"{entry.Key}\n";

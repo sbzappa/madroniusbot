@@ -64,7 +64,7 @@ namespace NarisBot.Tasks
                 await CommandUtils.SendToChannelAsync(
                     guild,
                     Config.WeeklyChannel,
-                    Display.LeaderboardEmbed(guild, Weekly, false));
+                    await Display.LeaderboardEmbedAsync(guild, Weekly, false));
             }
 
             // Backup weekly settings to json before overriding.

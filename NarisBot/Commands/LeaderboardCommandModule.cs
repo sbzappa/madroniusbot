@@ -79,7 +79,7 @@ namespace NarisBot.Commands
                 }
             }
 
-            await ctx.RespondAsync(Display.LeaderboardEmbed(ctx.Guild, weekly, false));
+            await ctx.RespondAsync(await Display.LeaderboardEmbedAsync(ctx.Guild, weekly, false));
             await CommandUtils.SendSuccessReaction(ctx);
         }
     }
