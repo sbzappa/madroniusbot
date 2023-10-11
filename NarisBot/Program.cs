@@ -66,6 +66,7 @@ namespace NarisBot
             commands.RegisterCommands<Commands.CompletedCommandModule>();
             commands.RegisterCommands<Commands.ForfeitCommandModule>();
             commands.RegisterCommands<Commands.LeaderboardCommandModule>();
+            commands.RegisterCommands<Commands.CheatCommandModule>();
 
             foreach(var c in commands) {
                 c.Value.CommandExecuted += CommandEvents.OnCommandExecuted;
